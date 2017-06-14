@@ -4,6 +4,6 @@ import com.typesafe.config.{Config, ConfigFactory}
 
 trait ServiceConfig {
 
-  val config: Config = ConfigFactory.load()
+  lazy val config: Config = ConfigFactory.load()
 
 }

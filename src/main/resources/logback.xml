@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <jmxConfigurator/>
+
+    <property name="log.dir" value="logs"/>
+    <property name="archive.dir" value="${log.dir}/archive"/>
+    <property name="archive.suffix" value=".%d{yyyy-MM-dd}.log.%i.gz"/>
+    <property name="archive.maxHistory" value="10"/>
+    <property name="archive.maxFileSize" value="100MB"/>
+    <property name="pattern.date" value="%d{yyyy-MM-dd HH:mm:ss}"/>
+    <property name="layout.pattern" value="%d{MM-dd HH:mm:ss}[%p]%c{1}:%line:%m%n"/>
+
+    <appender name="logging-poc" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/loggingPoc.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${archive.dir}/loggingPoc-${archive.suffix}</fileNamePattern>
+            <maxHistory>${archive.maxHistory}</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${archive.maxFileSize}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${layout.pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${layout.pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="reactivemongo" level="ERROR"/>
+    <logger name="akka.http" level="DEBUG"/>
+    <logger name="com.gettyimages.spray.swagger" level="ERROR"/>
+    <logger name="us.ygrene.logging.poc" level="DEBUG"/>
+    <Logger name="reactivemongo.api.MongoDriver" level="DEBUG" />
+
+    <root level="DEBUG">
+        <appender-ref ref="logging-poc"/>
+        <appender-ref ref="console"/>
+    </root>
+
+</configuration>
+
+

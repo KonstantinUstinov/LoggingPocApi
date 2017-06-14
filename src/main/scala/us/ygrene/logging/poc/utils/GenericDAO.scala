@@ -8,6 +8,7 @@ import scala.concurrent._
 import scala.util.Try
 import scala.concurrent.duration._
 import scala.util.control.NonFatal
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class GenericDAO[T: BSONDocumentReader : BSONDocumentWriter](implicit ctx: MongoCollectionContext[T]) extends LazyLogging {
 
