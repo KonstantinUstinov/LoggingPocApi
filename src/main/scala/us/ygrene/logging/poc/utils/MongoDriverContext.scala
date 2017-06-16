@@ -26,7 +26,7 @@ object MongoDriverContext extends ServiceConfig{
   val connections = TrieMap.empty[Authenticate, MongoConnection]
 
   def connection(auth: Authenticate, wc: WriteConcern): MongoConnection = connections.getOrElseUpdate(auth,
-    driver.connection(nodes = nodes, authentications = Seq(auth),
+    driver.connection(nodes = nodes, authentications = if(auth.password == "" && auth.user == "") Seq() else Seq(auth),
       options = MongoConnectionOptions(nbChannelsPerNode = channelsPerNode, writeConcern = wc)
     )
   )

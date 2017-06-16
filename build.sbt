@@ -29,6 +29,7 @@ libraryDependencies += "org.reactivemongo" %% "reactivemongo-bson" % "0.12.3"
 libraryDependencies += "org.specs2" %% "specs2-core" % "3.9.0" % "test"
 libraryDependencies += "org.slf4j" % "slf4j-log4j12" % "1.5.3"
 libraryDependencies += "joda-time" % "joda-time" % "2.9.9"
+libraryDependencies += "com.github.swagger-akka-http" %% "swagger-akka-http" % "0.9.1"
 
 fork in Test := true
 javaOptions in Test += "-Dconfig.resource=local/env.conf"
