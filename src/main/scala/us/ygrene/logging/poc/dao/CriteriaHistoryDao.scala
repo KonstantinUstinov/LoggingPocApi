@@ -3,9 +3,10 @@ package us.ygrene.logging.poc.dao
 import reactivemongo.api.indexes.{Index, IndexType}
 import us.ygrene.logging.poc.common.{LazyLogging, ServiceConfig}
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import reactivemongo.bson.Macros
+import reactivemongo.bson.{BSONDocument, Macros}
 import spray.json._
 import us.ygrene.logging.poc.utils._
+import us.ygrene.logging.poc.utils.BSONDocumentConverters._
 
 object CriteriaHistoryDao extends ServiceConfig with LazyLogging with SprayJsonSupport with DefaultJsonProtocol {
   val ProjectId = "projectId"
@@ -33,14 +34,16 @@ object CriteriaHistoryDao extends ServiceConfig with LazyLogging with SprayJsonS
         "new_data" -> m.new_data.map(JsString(_)).getOrElse(JsNull),
         User -> JsString(m.user),
         Timestamp -> JsString(BsonISODateTimeFormatter.dateTime.withZoneUTC().print(m.timestamp.getTime)),
-        "definition" -> JsBSONReader.readObject(m.definition)
+        "definition" -> BSONDocumentConverters.JsBSONReader.readObject(m.definition)
       ))
 
     override def read(json: JsValue): CriteriaHistory = ???
   }
 
   implicit val criteriaHistoryRes = jsonFormat3(BaseResponse[CriteriaHistory])
+  implicit val bsonRes = jsonFormat3(BaseResponse[BSONDocument])
   implicit val criteriaHandler = Macros.handler[CriteriaHistory]
+
 
   import us.ygrene.logging.poc.utils.MongoDriverContext.mongoExecutionContext
 
