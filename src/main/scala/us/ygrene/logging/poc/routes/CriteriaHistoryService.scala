@@ -32,9 +32,9 @@ trait CriteriaHistoryService extends CriteriaHistoryDao with Directives with Laz
 
   @ApiOperation(httpMethod = "GET", value = "Returns list of CriteriaHistory", response = classOf[BaseResponse[CriteriaHistory]], produces = "application/json")
   @ApiImplicitParams(Array(
-    new ApiImplicitParam(name = "search", required = true, dataType = "string", paramType = "query", value = "search json") //,
-    //new ApiImplicitParam(name = "sort", required = false, dataType = "string", paramType = "query", value = "sort json", defaultValue = "{}"),
-    //new ApiImplicitParam(name = "limit", required = false, dataType = "int", paramType = "query", value = "max number of documents, default = 100", defaultValue = "100")
+    new ApiImplicitParam(name = "search", required = true, dataType = "string", paramType = "query", value = "search json") ,
+    new ApiImplicitParam(name = "sort", required = false, dataType = "string", paramType = "query", value = "sort json", defaultValue = "{}"),
+    new ApiImplicitParam(name = "limit", required = false, dataType = "int", paramType = "query", value = "max number of documents, default = 100", defaultValue = "100")
   ))
   @ApiResponses(Array(new ApiResponse(code = 404, message = "The requested resource could not be found.")))
   def listOfCriteriaHistory = parameters('search.as[BSONDocument], 'sort.as[BSONDocument].?, 'limit.as[Int].?) {
